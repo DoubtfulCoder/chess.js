@@ -1348,6 +1348,11 @@ export const Chess = function (fen) {
       return reset()
     },
 
+    moves_ugly: function (options) {
+      var ugly_moves = generate_moves(options)
+      return ugly_moves
+    },
+
     moves: function (options) {
       /* The internal representation of a chess move is in 0x88 format, and
        * not meant to be human-readable.  The code below converts the 0x88
