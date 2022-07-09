@@ -580,7 +580,12 @@ export const Chess = function (fen) {
   }
 
   function get(square) {
-    var piece = board[SQUARE_MAP[square]]
+    var piece;
+    if (typeof square === 'number') {
+      piece = board[square]; 
+    } else {
+      piece = board[SQUARE_MAP[square]]
+    }
     return piece ? { type: piece.type, color: piece.color } : null
   }
 
@@ -1841,11 +1846,10 @@ export const Chess = function (fen) {
       if (typeof move === 'string') {
         move_obj = move_from_san(move, sloppy)
       } else if (typeof move === 'object') {
-          if ('bypass' in options) {
+          if (typeof options !== 'undefined' && 'bypass' in options) {
             // the user is providing the move object, so we use it as is
             move_obj = move
-          } 
-          else {
+          } else {
             var moves = generate_moves()
             /* convert the pretty move object to an ugly move object */
             for (var i = 0, len = moves.length; i < len; i++) {
