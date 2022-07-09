@@ -1841,20 +1841,25 @@ export const Chess = function (fen) {
       if (typeof move === 'string') {
         move_obj = move_from_san(move, sloppy)
       } else if (typeof move === 'object') {
-        // var moves = generate_moves()
-
-        // /* convert the pretty move object to an ugly move object */
-        // for (var i = 0, len = moves.length; i < len; i++) {
-        //   if (
-        //     move.from === algebraic(moves[i].from) &&
-        //     move.to === algebraic(moves[i].to) &&
-        //     (!('promotion' in moves[i]) ||
-        //       move.promotion === moves[i].promotion)
-        //   ) {
-        //     move_obj = moves[i]
-        //     break
-        //   }
-        // }
+          if ('bypass' in options) {
+            // the user is providing the move object, so we use it as is
+            move_obj = move
+          } 
+          else {
+            var moves = generate_moves()
+            /* convert the pretty move object to an ugly move object */
+            for (var i = 0, len = moves.length; i < len; i++) {
+              if (
+                move.from === algebraic(moves[i].from) &&
+                move.to === algebraic(moves[i].to) &&
+                (!('promotion' in moves[i]) ||
+                  move.promotion === moves[i].promotion)
+              ) {
+                move_obj = moves[i]
+                break
+              }
+            }
+          }
       }
 
       /* failed to find move */
